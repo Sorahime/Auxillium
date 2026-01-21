@@ -98,6 +98,152 @@
         </div>
     </div>
 
+    {{-- LOGISTICS NEEDED --}}
+<div class="mt-10 bg-white border rounded-2xl p-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div>
+            <h2 class="text-xl font-bold">Logistics Needed</h2>
+            <p class="text-sm text-slate-600 mt-1">
+                Overview of essential supplies required in affected areas, including fulfillment status and aid sources.
+            </p>
+        </div>
+
+        <div class="flex gap-2">
+            <button class="px-4 py-2 rounded-xl border hover:bg-slate-50 text-sm">
+                Refresh
+            </button>
+            <button class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold">
+                Add Request
+            </button>
+        </div>
+    </div>
+
+    @php
+        $logistics = [
+            [
+                'item' => 'Clean Water',
+                'region' => 'Bandung, West Java',
+                'source' => 'Jakarta Volunteer Center',
+                'progress' => 65,
+                'status' => 'Ongoing',
+            ],
+            [
+                'item' => 'Medical Kit',
+                'region' => 'Yogyakarta',
+                'source' => 'Local Health Office',
+                'progress' => 35,
+                'status' => 'Urgent',
+            ],
+            [
+                'item' => 'Blankets & Clothes',
+                'region' => 'Central Java',
+                'source' => 'Community Donations',
+                'progress' => 90,
+                'status' => 'Almost Done',
+            ],
+            [
+                'item' => 'Food Supplies',
+                'region' => 'Jakarta',
+                'source' => 'National Disaster Agency',
+                'progress' => 50,
+                'status' => 'Ongoing',
+            ],
+            [
+                'item' => 'Temporary Shelter',
+                'region' => 'Aceh',
+                'source' => 'NGO Partner Team',
+                'progress' => 15,
+                'status' => 'Urgent',
+            ],
+        ];
+
+        function badgeClass($status){
+            return match($status){
+                'Urgent' => 'bg-red-50 text-red-700 border-red-200',
+                'Almost Done' => 'bg-green-50 text-green-700 border-green-200',
+                default => 'bg-blue-50 text-blue-700 border-blue-200',
+            };
+        }
+    @endphp
+
+    {{-- Desktop Table --}}
+    <div class="hidden md:block overflow-hidden rounded-2xl border">
+        <table class="w-full text-sm">
+            <thead class="bg-slate-50 text-slate-600">
+                <tr>
+                    <th class="text-left font-semibold px-5 py-4">Logistic Item</th>
+                    <th class="text-left font-semibold px-5 py-4">Region</th>
+                    <th class="text-left font-semibold px-5 py-4">Aid Source</th>
+                    <th class="text-left font-semibold px-5 py-4">Progress</th>
+                    <th class="text-left font-semibold px-5 py-4">Status</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                @foreach($logistics as $row)
+                <tr class="border-t">
+                    <td class="px-5 py-4 font-semibold text-slate-800">
+                        {{ $row['item'] }}
+                    </td>
+                    <td class="px-5 py-4 text-slate-600">
+                        {{ $row['region'] }}
+                    </td>
+                    <td class="px-5 py-4 text-slate-600">
+                        {{ $row['source'] }}
+                    </td>
+                    <td class="px-5 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden">
+                                <div class="h-2 rounded-full bg-blue-600" style="width: {{ $row['progress'] }}%"></div>
+                            </div>
+                            <div class="text-xs font-semibold text-slate-600 w-10 text-right">
+                                {{ $row['progress'] }}%
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-5 py-4">
+                        <span class="px-3 py-1 rounded-full border text-xs font-semibold {{ badgeClass($row['status']) }}">
+                            {{ $row['status'] }}
+                        </span>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Mobile Cards (Responsive) --}}
+    <div class="md:hidden space-y-4">
+        @foreach($logistics as $row)
+        <div class="border rounded-2xl p-5 bg-white">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <p class="font-semibold text-slate-800">{{ $row['item'] }}</p>
+                    <p class="text-xs text-slate-500 mt-1">{{ $row['region'] }}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full border text-xs font-semibold {{ badgeClass($row['status']) }}">
+                    {{ $row['status'] }}
+                </span>
+            </div>
+
+            <div class="mt-4 text-sm text-slate-600">
+                <p><span class="font-semibold text-slate-800">Aid Source:</span> {{ $row['source'] }}</p>
+            </div>
+
+            <div class="mt-4">
+                <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
+                    <span>Progress</span>
+                    <span class="font-semibold text-slate-700">{{ $row['progress'] }}%</span>
+                </div>
+                <div class="h-2 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-2 rounded-full bg-blue-600" style="width: {{ $row['progress'] }}%"></div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+
+
     {{-- EMERGENCY CONTACT --}}
     <div class="mt-10">
         <h2 class="text-xl font-bold text-center">Emergency Contact</h2>
