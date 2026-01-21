@@ -16,10 +16,11 @@ class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
+     * Redirect to home since we're using modal now.
      */
-    public function create(): View
+    public function create()
     {
-        return view('auth.register');
+        return redirect()->route('home');
     }
 
     /**

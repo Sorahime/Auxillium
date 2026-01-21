@@ -105,8 +105,8 @@
 
     {{-- MODAL LOGIN --}}
     <div id="modalLogin"
-         class="fixed inset-0 bg-black/40 hidden items-center justify-center px-4 z-50">
-        <div class="bg-white w-full max-w-md rounded-2xl p-8 relative">
+         class="fixed inset-0 bg-black/40 hidden items-center justify-center px-4 z-50 overflow-y-auto">
+        <div class="bg-white w-full max-w-md rounded-2xl p-8 relative my-8">
             <button id="btnLoginClose"
                     class="absolute top-4 right-4 text-slate-400 hover:text-slate-900">✕</button>
 
@@ -116,30 +116,44 @@
                 <p class="text-sm text-slate-500">AUXILIUM</p>
             </div>
 
+            {{-- Show validation errors --}}
+            @if ($errors->any())
+                <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    @foreach ($errors->all() as $error)
+                        <p class="text-sm text-red-600">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
 
-                <input
-                    name="email"
-                    placeholder="Username/email"
-                    class="w-full border rounded-lg px-3 py-2"
-                    required
-                />
+                <div>
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="Username/email"
+                        value="{{ old('email') }}"
+                        class="w-full border rounded-lg px-3 py-2 @error('email') border-red-500 @enderror"
+                        required
+                    />
+                    @error('email')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    class="w-full border rounded-lg px-3 py-2"
-                    required
-                />
-
-                {{-- error jika login salah --}}
-                @if ($errors->any())
-                    <div class="text-sm text-red-600">
-                        Login gagal. Cek username/email atau password.
-                    </div>
-                @endif
+                <div>
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        class="w-full border rounded-lg px-3 py-2 @error('password') border-red-500 @enderror"
+                        required
+                    />
+                    @error('password')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
                 <div class="flex justify-between text-sm">
                     <a href="{{ route('password.request') }}" class="text-blue-600 hover:underline">
@@ -164,8 +178,8 @@
 
     {{-- MODAL REGISTER --}}
     <div id="modalRegister"
-         class="fixed inset-0 bg-black/40 hidden items-center justify-center px-4 z-50">
-        <div class="bg-white w-full max-w-md rounded-2xl p-8 relative">
+         class="fixed inset-0 bg-black/40 hidden items-center justify-center px-4 z-50 overflow-y-auto">
+        <div class="bg-white w-full max-w-md rounded-2xl p-8 relative my-8">
             <button id="btnRegisterClose"
                     class="absolute top-4 right-4 text-slate-400 hover:text-slate-900">✕</button>
 
@@ -175,40 +189,68 @@
                 <p class="text-sm text-slate-500">AUXILIUM</p>
             </div>
 
+            {{-- Show validation errors --}}
+            @if ($errors->any())
+                <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    @foreach ($errors->all() as $error)
+                        <p class="text-sm text-red-600">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('register') }}" class="space-y-4">
                 @csrf
 
                 {{-- Breeze default pakai "name" jadi kita pakai itu sebagai username --}}
-                <input
-                    name="name"
-                    placeholder="Username"
-                    class="w-full border rounded-lg px-3 py-2"
-                    required
-                />
+                <div>
+                    <input
+                        name="name"
+                        placeholder="Username"
+                        value="{{ old('name') }}"
+                        class="w-full border rounded-lg px-3 py-2 @error('name') border-red-500 @enderror"
+                        required
+                    />
+                    @error('name')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <input
-                    name="email"
-                    type="email"
-                    placeholder="Enter Email"
-                    class="w-full border rounded-lg px-3 py-2"
-                    required
-                />
+                <div>
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="Enter Email"
+                        value="{{ old('email') }}"
+                        class="w-full border rounded-lg px-3 py-2 @error('email') border-red-500 @enderror"
+                        required
+                    />
+                    @error('email')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    class="w-full border rounded-lg px-3 py-2"
-                    required
-                />
+                <div>
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        class="w-full border rounded-lg px-3 py-2 @error('password') border-red-500 @enderror"
+                        required
+                    />
+                    @error('password')
+                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <input
-                    name="password_confirmation"
-                    type="password"
-                    placeholder="Confirm Password"
-                    class="w-full border rounded-lg px-3 py-2"
-                    required
-                />
+                <div>
+                    <input
+                        name="password_confirmation"
+                        type="password"
+                        placeholder="Confirm Password"
+                        class="w-full border rounded-lg px-3 py-2"
+                        required
+                    />
+                </div>
 
                 <button type="submit"
                         class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold">
@@ -248,21 +290,26 @@
             modalRegister.classList.remove('flex');
         }
 
+        // Navbar buttons
         document.getElementById('btnLoginOpen')?.addEventListener('click', openLogin);
-        document.getElementById('btnLoginClose')?.addEventListener('click', closeLogin);
+        document.getElementById('btnRegisterOpenNav')?.addEventListener('click', openRegister);
 
+        // Modal close buttons
+        document.getElementById('btnLoginClose')?.addEventListener('click', closeLogin);
+        document.getElementById('btnRegisterClose')?.addEventListener('click', closeRegister);
+
+        // Switch between login and register modals
         document.getElementById('btnRegisterOpen')?.addEventListener('click', () => {
             closeLogin();
             openRegister();
         });
-
-        document.getElementById('btnRegisterClose')?.addEventListener('click', closeRegister);
 
         document.getElementById('btnBackToLogin')?.addEventListener('click', () => {
             closeRegister();
             openLogin();
         });
 
+        // Close modal when clicking outside
         modalLogin?.addEventListener('click', (e) => {
             if (e.target === modalLogin) closeLogin();
         });
@@ -271,10 +318,18 @@
             if (e.target === modalRegister) closeRegister();
         });
 
-        // ✅ Kalau login gagal, otomatis buka modal login lagi
+        // ✅ Kalau ada error, otomatis buka modal yang sesuai
         @if ($errors->any())
         document.addEventListener("DOMContentLoaded", function(){
-            openLogin();
+            // Cek jika error dari password field (register), buka register modal
+            const hasPasswordError = document.querySelector('[name="password"]')?.closest('form')?.parentElement?.textContent.includes('password');
+            const hasNameError = !!document.querySelector('[name="name"]');
+            
+            if (hasNameError || hasPasswordError) {
+                openRegister();
+            } else {
+                openLogin();
+            }
         });
         @endif
     </script>
