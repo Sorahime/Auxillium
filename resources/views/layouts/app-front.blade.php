@@ -32,6 +32,13 @@
 
             {{-- After login --}}
             @auth
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}"
+                       class="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 transition font-semibold">
+                        Admin Panel
+                    </a>
+                @endif
+                
                 <a href="{{ route('profile') }}"
                    class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden border">
                     👤
