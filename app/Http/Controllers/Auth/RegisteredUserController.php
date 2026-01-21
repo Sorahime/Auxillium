@@ -29,22 +29,33 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        \Log::info('Registration attempt', $request->all());
+
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        \Log::info('Validation passed', $validated);
 
-        event(new Registered($user));
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        Auth::login($user);
+            \Log::info('User created successfully', ['user_id' => $user->id]);
 
-        return redirect()->route('home');
+            event(new Registered($user));
+
+            Auth::login($user);
+
+            return redirect()->route('home');
+        } catch (\Exception $e) {
+            \Log::error('User creation failed', ['error' => $e->getMessage()]);
+            throw $e;
+        }
     }
 }
