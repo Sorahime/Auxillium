@@ -50,3 +50,12 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Simple JSON API to support the PWA and admin UI (no blade changes)
+Route::prefix('api')->middleware(['auth'])->group(function () {
+    Route::get('/news', [\App\Http\Controllers\ApiController::class, 'news']);
+    Route::get('/sos', [\App\Http\Controllers\ApiController::class, 'sos']);
+    Route::get('/reports', [\App\Http\Controllers\ApiController::class, 'reports']);
+    Route::get('/offline-maps', [\App\Http\Controllers\ApiController::class, 'offlineMaps']);
+    Route::get('/offline-maps/{id}/download', [\App\Http\Controllers\ApiController::class, 'downloadOfflineMap']);
+});
+

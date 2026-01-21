@@ -14,4 +14,9 @@ class Sos extends Model
     protected $fillable = [
         'user_id','message','province','lat','lng'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
 }
