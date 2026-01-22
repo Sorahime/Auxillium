@@ -55,4 +55,28 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    /**
+     * Get user's disaster reports
+     */
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    /**
+     * Get user's SOS alerts
+     */
+    public function sosAlerts()
+    {
+        return $this->hasMany(Sos::class);
+    }
+
+    /**
+     * Get news articles created by this user
+     */
+    public function newsArticles()
+    {
+        return $this->hasMany(News::class);
+    }
 }

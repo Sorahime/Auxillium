@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
             $table->string('title');
-            $table->string('disaster_type'); // Earthquake, Flood, etc
-            $table->string('status'); // Ongoing, Contained, etc
-
             $table->text('content');
-            $table->string('image')->nullable(); // path image
+            $table->string('disaster_type'); // Earthquake, Flood, etc
+            $table->enum('status', ['published', 'draft'])->default('draft');
 
-            $table->date('published_at'); // tanggal berita
+            $table->string('image_path')->nullable(); // path image
 
             $table->timestamps();
         });

@@ -12,7 +12,15 @@ class Sos extends Model
     protected $table = 'sos';
 
     protected $fillable = [
-        'user_id','message','province','lat','lng'
+        'user_id',
+        'name',
+        'phone',
+        'description',
+        'location',
+        'latitude',
+        'longitude',
+        'status',
+        'admin_response',
     ];
 
     public function user()

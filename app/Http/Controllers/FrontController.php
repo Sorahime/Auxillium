@@ -14,6 +14,9 @@ class FrontController extends Controller
 
     public function news(Request $request) {
         $query = News::query();
+        
+        // Only show published news to public
+        $query->where('status', 'published');
 
         // search title
         if ($request->filled('search')) {
@@ -25,33 +28,13 @@ class FrontController extends Controller
             $query->where('disaster_type', $request->type);
         }
 
-        // filter status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        // filter date range preset
-        if ($request->filled('date')) {
-            if ($request->date === 'today') {
-                $query->whereDate('published_at', now()->toDateString());
-            } elseif ($request->date === '24h') {
-                $query->whereDate('published_at', '>=', now()->subDay()->toDateString());
-            } elseif ($request->date === '7d') {
-                $query->whereDate('published_at', '>=', now()->subDays(7)->toDateString());
-            } elseif ($request->date === '30d') {
-                $query->whereDate('published_at', '>=', now()->subDays(30)->toDateString());
-            }
-        }
-
-        $news = $query->orderByDesc('published_at')->paginate(12)->withQueryString();
+        $news = $query->orderByDesc('created_at')->paginate(12)->withQueryString();
 
         return view('front.news', [
             'news' => $news,
             'filters' => [
                 'search' => $request->search,
                 'type' => $request->type,
-                'status' => $request->status,
-                'date' => $request->date,
             ],
         ]);
     }

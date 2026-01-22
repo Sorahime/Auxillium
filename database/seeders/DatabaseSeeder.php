@@ -15,8 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create admin user first
+        $this->call(AdminUserSeeder::class);
+        
+        // Then seed news
         $this->call(NewsSeeder::class);
 
+        // Create test user
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

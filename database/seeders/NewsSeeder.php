@@ -36,16 +36,16 @@ class NewsSeeder extends Seeder
             ],
         ];
 
-        // supaya jadi 12 item, kita clone
+        // supera jadi 12 item, kita clone
         for ($i=1; $i<=12; $i++) {
             $base = $items[$i % count($items)];
             News::create([
+                'user_id' => 1, // admin user
                 'title' => $base['title']." #".$i,
                 'disaster_type' => $base['disaster_type'],
-                'status' => $base['status'],
+                'status' => strtolower($base['status']) === 'ongoing' || strtolower($base['status']) === 'under monitoring' ? 'published' : 'published',
                 'content' => $base['content']." (News item #$i)",
-                'image' => $base['image'],
-                'published_at' => $base['published_at'],
+                'image_path' => $base['image'],
             ]);
         }
     }

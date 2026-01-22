@@ -15,12 +15,17 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
-            $table->string('category'); // ex: Flood
+            $table->string('title'); // report title
             $table->text('description')->nullable();
-            $table->string('province')->nullable();
+            $table->string('disaster_type'); // ex: Flood, Earthquake, Landslide
             $table->string('location')->nullable(); // alamat bebas / teks
-
-            $table->string('media_path')->nullable(); // file upload optional
+            $table->decimal('latitude', 10, 8)->nullable(); // for coordinates
+            $table->decimal('longitude', 11, 8)->nullable(); // for coordinates
+            
+            $table->string('photo_path')->nullable(); // file upload optional
+            $table->enum('status', ['pending', 'verified', 'resolved'])->default('pending');
+            $table->text('admin_notes')->nullable();
+            
             $table->timestamps();
         });
     }

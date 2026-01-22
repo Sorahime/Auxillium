@@ -24,22 +24,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/map/{province}', [MapController::class, 'show'])->name('map.show');
 
     // report bencana
+    Route::get('/report/create', [ReportController::class, 'create'])->name('report.create');
     Route::post('/report', [ReportController::class, 'store'])->name('report.store');
+    Route::get('/my-reports', [ReportController::class, 'myReports'])->name('report.my');
+    Route::get('/report/{report}', [ReportController::class, 'show'])->name('report.show');
 
     // offline map
     Route::get('/offline-maps', [OfflineMapController::class, 'index'])->name('offline.index');
 
     // SOS
+    Route::get('/sos/create', [SosController::class, 'create'])->name('sos.create');
     Route::post('/sos', [SosController::class, 'store'])->name('sos.store');
+    Route::get('/my-alerts', [SosController::class, 'myAlerts'])->name('sos.my');
+    Route::get('/sos/{sos}', [SosController::class, 'show'])->name('sos.show');
 
     // news
     Route::get('/news', [FrontController::class, 'news'])->name('news');
 
     // profile
-    Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [FrontController::class, 'profile'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    });
 
     // dashboard redirect to home
     Route::get('/dashboard', function () {

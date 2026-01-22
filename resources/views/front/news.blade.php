@@ -38,16 +38,16 @@
             onclick="openNewsPopup(
                 '{{ addslashes($item->title) }}',
                 '{{ addslashes($item->content) }}',
-                '{{ $item->image }}'
+                '{{ $item->image_path }}'
             )"
         >
             <div class="h-40 bg-slate-100 overflow-hidden">
-                <img src="{{ $item->image }}" class="w-full h-full object-cover" alt="">
+                <img src="{{ $item->image_path }}" class="w-full h-full object-cover" alt="">
             </div>
             <div class="p-4">
                 <h2 class="font-bold text-sm">{{ $item->title }}</h2>
                 <p class="text-xs text-slate-500 mt-1">
-                    {{ $item->disaster_type }} • {{ $item->status }} • {{ $item->published_at }}
+                    {{ ucfirst($item->disaster_type) }} • {{ ucfirst($item->status) }} • {{ $item->created_at->format('d M Y') }}
                 </p>
             </div>
         </button>

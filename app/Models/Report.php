@@ -10,7 +10,16 @@ class Report extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','category','description','province','location','media_path'
+        'user_id',
+        'title',
+        'description',
+        'disaster_type',
+        'location',
+        'latitude',
+        'longitude',
+        'photo_path',
+        'status',
+        'admin_notes',
     ];
 
     public function user()

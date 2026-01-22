@@ -12,11 +12,19 @@ class News extends Model
     protected $table = 'news';
 
     protected $fillable = [
+        'user_id',
         'title',
+        'content',
         'disaster_type',
         'status',
-        'content',
-        'image',
-        'published_at',
+        'image_path',
     ];
+
+    /**
+     * Get the user who created this news article
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
